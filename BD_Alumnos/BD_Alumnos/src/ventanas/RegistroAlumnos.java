@@ -249,7 +249,7 @@ public class RegistroAlumnos extends javax.swing.JFrame {
         //Codigo que permite consultar registros en la base de datos
         try{
             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/BD_maestro", "root", "Langas798");
-            PreparedStatement pst = cn.prepareStatement("select * from maestro where ID = ?");
+            PreparedStatement pst = cn.prepareStatement("select * from maestro where Codigo_Maestro = ?");
             pst.setString(1, txt_buscar.getText().trim());
             
             ResultSet rs = pst.executeQuery();
@@ -275,14 +275,15 @@ public class RegistroAlumnos extends javax.swing.JFrame {
         try {
             String ID = txt_buscar.getText().trim();
             
-            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/BD_mestro", "root", "Langas798");
-            PreparedStatement pst = cn.prepareStatement("update mestro set Nombre = ?, Apellido = ?,Edad = ?,Correo = ?, Telefono = ? ,  where Codigo_Mestro = " + ID);
+            Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/BD_maestro", "root", "Langas798");
+            PreparedStatement pst = cn.prepareStatement("update maestro set Codigo_Maestro = ?,Nombre = ?, Apellido = ?,Edad = ?,Correo = ?, Telefono = ? where Codigo_Maestro = " + ID);
             
-            pst.setString(1, txt_nombre.getText().trim());
-            pst.setString(2, txt_apellido.getText().trim());
-            pst.setString(3, txt_edad.getText().trim());
-            pst.setString(4, txt_apellido.getText().trim());
-            pst.setString(2, txt_apellido.getText().trim());
+            pst.setString(1, txt_codigo.getText().trim());
+            pst.setString(2, txt_nombre.getText().trim());
+            pst.setString(3, txt_apellido.getText().trim());
+            pst.setString(4, txt_edad.getText().trim());
+            pst.setString(5, txt_correo.getText().trim());
+            pst.setString(6, txt_telefono.getText().trim());
             pst.executeUpdate();
             
             label_status.setText("Modificación exitosa.");
@@ -295,14 +296,18 @@ public class RegistroAlumnos extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         //Codigo que permite borrar registros en la base de datos
         try {
-             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/bd_ins", "root", "");
-            PreparedStatement pst = cn.prepareStatement("delete from alumnos where ID = ?");
+             Connection cn = DriverManager.getConnection("jdbc:mysql://localhost/BD_maestro", "root", "Langas798");
+            PreparedStatement pst = cn.prepareStatement("delete from maestro where Codigo_Maestro = ?");
             
             pst.setString(1, txt_buscar.getText().trim());
             pst.executeUpdate();
             
-            txt_apellido.setText("");
             txt_nombre.setText("");
+            txt_apellido.setText("");
+            txt_edad.setText("");
+            txt_correo.setText("");
+            txt_telefono.setText("");
+            txt_codigo.setText("");
             txt_buscar.setText("");
             
             label_status.setText("Registro eliminado.");
